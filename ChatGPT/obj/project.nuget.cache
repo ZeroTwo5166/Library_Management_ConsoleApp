@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "/L6EWth/GKZoGJX/g0ida3gAOp6f40k5a+cg9R4Snfojv6Ky8f2vqN76FyVyAZmdirIOBNv4bFSbWiWbv7Vg2A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\subar\\source\\repos\\ChatGPT\\ChatGPT\\ChatGPT.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\subar\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\subar\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}

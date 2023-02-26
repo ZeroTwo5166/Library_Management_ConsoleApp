@@ -1,0 +1,17 @@
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\bin\Debug\net7.0\ChatGPT.exe
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\bin\Debug\net7.0\ChatGPT.deps.json
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\bin\Debug\net7.0\ChatGPT.runtimeconfig.json
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\bin\Debug\net7.0\ChatGPT.dll
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\bin\Debug\net7.0\ChatGPT.pdb
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ChatGPT.csproj.AssemblyReference.cache
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ChatGPT.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ChatGPT.AssemblyInfoInputs.cache
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ChatGPT.AssemblyInfo.cs
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ChatGPT.csproj.CoreCompileInputs.cache
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ChatGPT.dll
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\refint\ChatGPT.dll
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ChatGPT.pdb
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ChatGPT.genruntimeconfig.cache
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ref\ChatGPT.dll
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\subar\source\repos\ChatGPT\ChatGPT\obj\Debug\net7.0\ChatGPT.csproj.CopyComplete
