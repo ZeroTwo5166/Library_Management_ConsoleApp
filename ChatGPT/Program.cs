@@ -28,6 +28,7 @@ public class Program : Indentation
 
         BookLists();
         LibraryList();
+        Administrator admin = new Administrator(); //Laver et admin object
 
 
         Console.WriteLine("Press any key to enter Menu...");
@@ -68,7 +69,6 @@ public class Program : Indentation
 ██╔══██║██║░░██║██║╚██╔╝██║██║██║╚████║  ██║╚██╔╝██║██╔══╝░░██║╚████║██║░░░██║
 ██║░░██║██████╔╝██║░╚═╝░██║██║██║░╚███║  ██║░╚═╝░██║███████╗██║░╚███║╚██████╔╝
 ╚═╝░░╚═╝╚═════╝░╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝  ╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝░╚═════╝░");
-                    Administrator admin = new Administrator(); //Laver et admin object
                     Console.Write("Enter Admin Id --> ");
                     admin.AdminId = Console.ReadLine();
 
@@ -81,7 +81,7 @@ public class Program : Indentation
 
                     break;
 
-                case "User":
+                case "Member":
                     Console.Clear();
                     Console.WriteLine(@"
 
@@ -91,18 +91,19 @@ public class Program : Indentation
 ██║╚██╔╝██║██╔══╝░░██║╚██╔╝██║██╔══██╗██╔══╝░░██╔══██╗  ██║░░░░░██║░░██║██║░░╚██╗██║██║╚████║
 ██║░╚═╝░██║███████╗██║░╚═╝░██║██████╦╝███████╗██║░░██║  ███████╗╚█████╔╝╚██████╔╝██║██║░╚███║
 ╚═╝░░░░░╚═╝╚══════╝╚═╝░░░░░╚═╝╚═════╝░╚══════╝╚═╝░░╚═╝  ╚══════╝░╚════╝░░╚═════╝░╚═╝╚═╝░░╚══╝");
-                    User user = new User();
+                    Member member = new Member();
                     Console.Write("Enter User Id --> ");
                     int id;
 
                     bool checkUserId = int.TryParse(Console.ReadLine(), out id);
 
-                    user.UserId = id;
+                    member.MemberId = id;
 
                     Console.Write("Enter User Pass --> ");
-                    user.Password = Console.ReadLine();
+                    member.MemberPassword = Console.ReadLine();
 
-                    user.CheckUserLogin(user.UserId, user.Password);
+                    member.CheckUserLogin(member.MemberId, member.MemberPassword);
+                    MemberMenu(member);
                     break;
 
                 default:
@@ -111,11 +112,7 @@ public class Program : Indentation
             }
 
         } while (userValid);
-        
-
-
     }
-    
 
     static string ValidUser(string user)
     {
@@ -124,7 +121,7 @@ public class Program : Indentation
         if (exactUserInput == "1")
             return "Administrator";
         else if (exactUserInput == "2")
-            return "User";
+            return "Member";
         else
         {
             bool runLoop = true;
@@ -143,7 +140,7 @@ public class Program : Indentation
                 }
 
                 else if (userType == "2")
-                    return "User";
+                    return "Member";
 
                 else
                     continue;
@@ -172,7 +169,7 @@ public class Program : Indentation
 
         do
         {
-            ColorMessage(ConsoleColor.Cyan, "Admin Main Menu", true);
+            ColorMessage(ConsoleColor.Cyan, "\nAdmin Main Menu", true);
             Console.WriteLine("Choose Options: ");
             Console.WriteLine("1) Book");
             Console.WriteLine("2) Library");
@@ -205,19 +202,6 @@ public class Program : Indentation
         } while (runLoop);
         
     }
-
-    /*
-     public static Dictionary<string, Book> BookDictionary()
-    {
-        var bookDictionary = new Dictionary<string, Book>();
-
-        foreach (Book book in bookList)
-        {
-            bookDictionary.Add(book.Title, book);
-        }
-        return bookDictionary;
-
-    } */
 
     public static void LibraryList()
      {
@@ -287,13 +271,13 @@ public class Program : Indentation
         return bookList;
     }
 
-    public static Dictionary<bool, Book> BookExists(string _title)
+    public static Dictionary<bool, Book> BookExists(string _title, string _author)
     {
         Dictionary<bool, Book> bookInBookList = new Dictionary<bool, Book>();
          
         foreach (Book item in bookList)
         {
-            if(item.Title.ToLower() == _title.ToLower())
+            if(item.Title.ToLower() == _title.ToLower() && item.Author.ToLower() == _author.ToLower())
             {
                 bookInBookList.Add(true, item);
                 return bookInBookList;
@@ -318,42 +302,10 @@ public class Program : Indentation
         {
             for (int i = 0; i < bookList.Count; i++)
             {
-                Console.WriteLine($" {(i+1)}) {bookList[i].Title}| Author - {bookList[i].Author}´| ISBN - {bookList[i].ISBN}| Publisher - {bookList[i].Publisher}| Publication Date - {bookList[i].Publication_Date}| Number of pages - {bookList[i].Number_of_Pages}| Availability - {bookList[i].Availability}");
+                Console.WriteLine($" {(i+1)}) {bookList[i].Title}| Author - {bookList[i].Author}| ISBN - {bookList[i].ISBN}| Publisher - {bookList[i].Publisher}| Publication Date - {bookList[i].Publication_Date}| Number of pages - {bookList[i].Number_of_Pages}| Availability - {bookList[i].Availability}");
             }
         }
 
-    }
-
-    public static void LoanABook(string bookTitle)
-    {
-        var bookexists = Program.BookExists(bookTitle);
-        bool exists = bookexists.ContainsKey(true);
-
-        if (exists)
-        {
-            int bookIndex = Program.bookList.IndexOf(bookexists[true]);
-            Program.bookList[bookIndex].Checkout();
-        }
-        else
-        {
-            ColorMessage(ConsoleColor.Red,"Book doesn't exists!!",true);
-        }
-    }
-
-    public static void ReturnBook(string bookTitle)
-    {
-        var bookexists = Program.BookExists(bookTitle);
-        bool exists = bookexists.ContainsKey(true);
-
-        if (exists)
-        {
-            int bookIndex = Program.bookList.IndexOf(bookexists[true]);
-            Program.bookList[bookIndex].Return();
-        }
-        else
-        {
-            ColorMessage(ConsoleColor.Red, "Book doesn't exists!", true);
-        }
     }
 
     public static void GetLibraryDetails(int num)
@@ -378,7 +330,43 @@ public class Program : Indentation
         }
     }
 
-
+    private static void MemberMenu(Member member)
+    {
+        bool runLoop = true;
+        do
+        {
+            ColorMessage(ConsoleColor.Cyan, "\nMember Main Menu", true);
+            Console.WriteLine("Choose Options: ");
+            Console.WriteLine("1) Book");
+            Console.WriteLine("2) Library");
+            Console.WriteLine("3) Borrowed");
+            Console.WriteLine("4) Logout");
+            Console.Write("--> ");
+            int userOption = ValidNumberInput(Console.ReadLine(), 4);
+            switch (userOption)
+            {
+                case 1:
+                    member.EditBookClassAsMember();
+                    break;
+                case 2:
+                    member.EditLibraryClassAsMember();
+                    break;
+                case 3:
+                    Console.WriteLine("List of borrowed books: ");
+                    for (int i = 0; i < member.BorrowedBooks.Count; i++)
+                    {
+                        Console.WriteLine(" " + (i + 1) + ") " + member.BorrowedBooks[i].Title + "| Author - " + member.BorrowedBooks[i].Author);
+                    }
+                    break;
+                case 4:
+                    Console.Clear();
+                    runLoop = false;
+                    break;
+                default:
+                    break;
+            }
+        } while (runLoop);
+    }
 }
 
 

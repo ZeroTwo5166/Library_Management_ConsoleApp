@@ -12,6 +12,7 @@ namespace ChatGPT
         public string AdminId { get; set; }
         public string AdminPass { get; set; }
         public bool IsLoggedIn { get; set; } = false;
+        public List<Book> BorrowedBooks { get; set; } = new List<Book>();
         public Administrator()
         {
         }
@@ -69,15 +70,16 @@ namespace ChatGPT
                 Console.WriteLine("3) Edit a book");
                 Console.WriteLine("4) Loan a book");
                 Console.WriteLine("5) Return a book");
-                Console.WriteLine("6) List all book");
-                Console.WriteLine("7) Go back to Admin Menu");
+                Console.WriteLine("6) List all books");
+                Console.WriteLine("7) List all borrowed books");
+                Console.WriteLine("8) Go back to Admin Menu");
                 Console.Write("Option --> ");
-                int bookOption = ValidNumberInput(Console.ReadLine(), 7);
+                int bookOption = ValidNumberInput(Console.ReadLine(), 8);
 
                 switch (bookOption)
                 {
                     case 1:
-                        Console.WriteLine("\nEnter Book information:");
+                        Console.WriteLine("\nCreate a book:");
                         Console.Write("Title: ");
                         string title = Console.ReadLine();
               
@@ -106,6 +108,7 @@ namespace ChatGPT
 
 
                     case 2:
+                        Console.WriteLine("\nDelete a book");
                         Console.WriteLine("Enter book title.");
                         Console.Write("--> ");
                         string titleRemove = Console.ReadLine();
@@ -118,11 +121,12 @@ namespace ChatGPT
 
 
                     case 3:
-                        Console.WriteLine("\nEnter book title to edit it.");
+                        Console.WriteLine("\nEdit a book");
+                        Console.WriteLine("Enter book title");
                         Console.Write("--> ");
                         string editTitle = Console.ReadLine();
 
-                        Console.WriteLine("\nEnter book author to edit it.");
+                        Console.WriteLine("\nEnter book author.");
                         Console.Write("--> ");
                         string editAuthor = Console.ReadLine();
 
@@ -130,19 +134,33 @@ namespace ChatGPT
                         break;
 
                     case 4:
-                        Console.WriteLine("Enter book title to loan it. ");
+                        Console.WriteLine("\nLoan a book");
+                        Console.WriteLine("Enter book title. ");
                         Console.Write("--> ");
-                        Program.LoanABook(Console.ReadLine());
+                        string bookTitle = Console.ReadLine();
+
+                        Console.WriteLine("Enter book Author. ");
+                        Console.Write("--> ");
+                        string bookAuthor = Console.ReadLine();
+
+                        AdminLoanABook(bookTitle, bookAuthor);
                         break;
 
                     case 5:
-                        Console.WriteLine("Enter book title to return it.");
+                        Console.WriteLine("\nReturn a book");
+                        Console.WriteLine("Enter book title");
                         Console.Write("-->");
-                        Program.ReturnBook(Console.ReadLine());
+                        string returnTitle = Console.ReadLine();
+
+                        Console.WriteLine("Enter book author");
+                        Console.Write("-->");
+                        string returnAuthor = Console.ReadLine();
+
+                        AdminReturnBook(returnTitle, returnAuthor);
                         break;
 
                     case 6:
-                        Console.WriteLine("List all books below.");
+                        Console.WriteLine("\nList all books below.");
                         Console.WriteLine("1) Less detail | 2) More detail");
                         Console.Write("--> ");
                         int detailOption = ValidNumberInput(Console.ReadLine(), 2);
@@ -150,6 +168,14 @@ namespace ChatGPT
                         break;
 
                     case 7:
+                        Console.WriteLine("\nAll borrowed books are listed below.");
+                        for (int i = 0; i < BorrowedBooks.Count; i++)
+                        {
+                            Console.WriteLine(" " + (i + 1) + ") " + BorrowedBooks[i].Title);
+                        }
+                        break;
+
+                    case 8:
                         runLoop = false;
                         Console.Clear();
                         break;
@@ -184,7 +210,7 @@ namespace ChatGPT
                         break;
 
                     case 2:
-                        Console.WriteLine("Enter following details to remove library: ");
+                        Console.WriteLine("\nEnter following details to remove a library: ");
                         Console.Write("Library Name: ");
                         string libName = Console.ReadLine();
 
@@ -198,7 +224,7 @@ namespace ChatGPT
                         break;
 
                     case 4:
-                        Console.WriteLine("List all libraries below.");
+                        Console.WriteLine("\nList all libraries below.");
                         Console.WriteLine("1) Less detail | 2) More detail");
                         Console.Write("--> ");
                         int detailOption = ValidNumberInput(Console.ReadLine(), 2);
@@ -401,8 +427,76 @@ namespace ChatGPT
             return Program.libraryList;
         }
 
+        private Library EditLibrary(string libraryName, string libraryAddress)
+        {
+            Library editedLibrary = new Library();
 
-    }  
+            for (int i = 0; i < Program.libraryList.Count; i++)
+            {
+                if (Program.libraryList[i].Name.ToLower() == libraryName.ToLower() && Program.libraryList[i].Address.ToLower() == libraryAddress.ToLower())
+                {
+                    editedLibrary = EditLibraryParams(Program.libraryList[i]);
+                    return editedLibrary;
+                }
+            }
+            return editedLibrary;
+
+        }
+
+        //Working on..
+        private Library EditLibraryParams(Library libraryThatNeedsToBeChanged)
+        {
+            Console.WriteLine("Enter values that needed to be changed or just press enter to have the same previous value.");
+
+            Console.Write("Edit Library Name: ");
+            string editName = Console.ReadLine();
+            if (editName != "")
+                libraryThatNeedsToBeChanged.Name = editName;
+
+            Console.Write("Edit Address: ");
+            string editAddress = Console.ReadLine();
+            if (editAddress != "")
+                libraryThatNeedsToBeChanged.Address = editAddress;
+
+            return libraryThatNeedsToBeChanged;
+
+        }
+
+        public void AdminLoanABook(string bookTitle, string bookAuthor)
+        {
+            var bookexists = Program.BookExists(bookTitle, bookAuthor);
+            bool exists = bookexists.ContainsKey(true);
+
+            if (exists)
+            {
+                int bookIndex = Program.bookList.IndexOf(bookexists[true]);
+                Program.bookList[bookIndex].Checkout();              
+                BorrowedBooks.Add(Program.bookList[bookIndex]);
+            }
+            else
+            {
+                ColorMessage(ConsoleColor.Red, "Book doesn't exists!!", true);
+            }
+        }
+
+        public void AdminReturnBook(string bookTitle, string bookAuthor)
+        {
+            var bookexists = Program.BookExists(bookTitle, bookAuthor);
+            bool exists = bookexists.ContainsKey(true);
+
+            if (exists)
+            {
+                int bookIndex = Program.bookList.IndexOf(bookexists[true]);
+                Program.bookList[bookIndex].Return();
+                BorrowedBooks.Remove(Program.bookList[bookIndex]);
+            }
+            else
+            {
+                ColorMessage(ConsoleColor.Red, "Book doesn't exists!", true);
+            }
+        }
+
+    }
 
 }
 
