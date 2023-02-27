@@ -109,11 +109,11 @@ namespace ChatGPT
 
                     case 2:
                         Console.WriteLine("\nDelete a book");
-                        Console.WriteLine("Enter book title.");
+                        Console.WriteLine("Enter book title");
                         Console.Write("--> ");
                         string titleRemove = Console.ReadLine();
 
-                        Console.WriteLine("Enter book author.");
+                        Console.WriteLine("Enter book author");
                         Console.Write("--> ");
                         string authorRemove = Console.ReadLine();
                         Program.RemoveBook(titleRemove, authorRemove);
@@ -126,7 +126,7 @@ namespace ChatGPT
                         Console.Write("--> ");
                         string editTitle = Console.ReadLine();
 
-                        Console.WriteLine("\nEnter book author.");
+                        Console.WriteLine("\nEnter book author");
                         Console.Write("--> ");
                         string editAuthor = Console.ReadLine();
 
@@ -135,11 +135,11 @@ namespace ChatGPT
 
                     case 4:
                         Console.WriteLine("\nLoan a book");
-                        Console.WriteLine("Enter book title. ");
+                        Console.WriteLine("Enter book title");
                         Console.Write("--> ");
                         string bookTitle = Console.ReadLine();
 
-                        Console.WriteLine("Enter book Author. ");
+                        Console.WriteLine("Enter book Author");
                         Console.Write("--> ");
                         string bookAuthor = Console.ReadLine();
 
@@ -470,9 +470,13 @@ namespace ChatGPT
             if (exists)
             {
                 int bookIndex = Program.bookList.IndexOf(bookexists[true]);
+
+                if(Program.bookList[bookIndex].Availability == true)
+                    BorrowedBooks.Add(Program.bookList[bookIndex]);
+
                 Program.bookList[bookIndex].Checkout();              
-                BorrowedBooks.Add(Program.bookList[bookIndex]);
             }
+
             else
             {
                 ColorMessage(ConsoleColor.Red, "Book doesn't exists!!", true);
@@ -484,7 +488,7 @@ namespace ChatGPT
             var bookexists = Program.BookExists(bookTitle, bookAuthor);
             bool exists = bookexists.ContainsKey(true);
 
-            if (exists)
+            if (exists && bookexists[true].Availability != true)
             {
                 int bookIndex = Program.bookList.IndexOf(bookexists[true]);
                 Program.bookList[bookIndex].Return();
